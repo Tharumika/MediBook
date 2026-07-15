@@ -7,9 +7,8 @@ target/
 *.war
 *.ear
 *.log
-.mvn/
-mvnw
-mvnw.cmd
+target/
+# keep .mvn/wrapper and mvnw.cmd so others can run without installing Maven
 hs_err_pid*
 
 # ===========================
