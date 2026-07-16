@@ -2,6 +2,13 @@
 
 A full-stack healthcare web application built with **Java Spring Boot** and **Angular**, simulating a real-world clinic appointment system. Developed as a portfolio project targeting healthcare software engineering.
 
+## Live Demo & Deployment
+
+The application is deployed live across cloud platforms:
+* **Frontend Portal (Netlify):** [https://medibook-portal.netlify.app](https://medibook-portal.netlify.app)
+* **Doctor Registration Portal:** [https://medibook-portal.netlify.app/doctor-register](https://medibook-portal.netlify.app/doctor-register)
+* **Backend API (Railway):** `https://<your-backend-subdomain>.up.railway.app`
+
 ## Tech Stack
 
 | Layer      | Technology                                              |
