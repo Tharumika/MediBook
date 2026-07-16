@@ -106,7 +106,6 @@ import { AuthService } from '../../shared/services/auth.service';
           </form>
 
           <p class="switch-link">Are you a patient? <a routerLink="/login">Patient login</a></p>
-          <p class="switch-link" style="margin-top: 10px;">New to MediBook? <a routerLink="/doctor-register">Register as a Doctor</a></p>
         </div>
       </div>
     </div>
