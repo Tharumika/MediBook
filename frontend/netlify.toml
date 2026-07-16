@@ -3,6 +3,13 @@
   publish = "dist/frontend/browser"
   command = "npm run build"
 
+# Redirect API calls to the production backend server (change the 'to' URL once you deploy the backend)
+[[redirects]]
+  from = "/api/*"
+  to = "https://your-backend-url-goes-here.koyeb.app/api/:splat"
+  status = 200
+  force = true
+
 # Redirect all traffic to index.html to support Angular's client-side routing
 [[redirects]]
   from = "/*"

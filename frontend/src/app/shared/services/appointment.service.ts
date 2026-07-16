@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Appointment, BookAppointmentRequest, Doctor } from '../models/appointment.models';
 
-const API = 'http://localhost:8080/api';
+const API = window.location.hostname === 'localhost'
+  ? 'http://localhost:8080/api'
+  : '/api';
 
 @Injectable({ providedIn: 'root' })
 export class AppointmentService {

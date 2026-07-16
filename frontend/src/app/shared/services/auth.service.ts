@@ -4,7 +4,9 @@ import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import { AuthResponse, LoginRequest, RegisterRequest, DoctorRegisterRequest } from '../models/auth.models';
 
-const API = 'http://localhost:8080/api/auth';
+const API = window.location.hostname === 'localhost'
+  ? 'http://localhost:8080/api/auth'
+  : '/api/auth';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
