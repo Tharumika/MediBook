@@ -94,14 +94,24 @@ import { AuthService } from '../../shared/services/auth.service';
 
           <p class="switch-link">Don't have an account? <a routerLink="/register">Create one free</a></p>
 
-          <div class="demo-box">
-            <p class="demo-label">Try with a demo account</p>
-            <div class="demo-chips">
-              <button class="demo-chip patient" (click)="demo('patient')">
-                <mat-icon>person</mat-icon> Patient
+          <div class="quick-access">
+            <p class="qa-label">Quick access</p>
+            <div class="qa-tiles">
+              <button class="qa-tile" (click)="demo('patient')">
+                <div class="qa-icon patient"><mat-icon>person</mat-icon></div>
+                <div class="qa-info">
+                  <strong>Patient</strong>
+                  <span>Sign in as patient</span>
+                </div>
+                <mat-icon class="qa-arrow">chevron_right</mat-icon>
               </button>
-              <button class="demo-chip doctor" (click)="demo('doctor')">
-                <mat-icon>medical_services</mat-icon> Doctor
+              <button class="qa-tile" (click)="demo('doctor')">
+                <div class="qa-icon doctor"><mat-icon>medical_services</mat-icon></div>
+                <div class="qa-info">
+                  <strong>Doctor</strong>
+                  <span>Sign in as doctor</span>
+                </div>
+                <mat-icon class="qa-arrow">chevron_right</mat-icon>
               </button>
             </div>
           </div>
@@ -222,50 +232,56 @@ import { AuthService } from '../../shared/services/auth.service';
       a { font-weight: 600; }
     }
 
-    .demo-box {
-      background: #fff;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 16px;
-    }
+    .quick-access { margin-top: 8px; }
 
-    .demo-label {
-      font-size: 12px;
-      font-weight: 600;
+    .qa-label {
+      font-size: 11px;
+      font-weight: 700;
       color: #94a3b8;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.07em;
       margin: 0 0 10px;
     }
 
-    .demo-chips {
-      display: flex;
-      gap: 8px;
-    }
+    .qa-tiles { display: flex; flex-direction: column; gap: 8px; }
 
-    .demo-chip {
-      flex: 1;
-      height: 38px;
-      border: 1.5px solid #e2e8f0;
-      background: #f8fafc;
-      border-radius: 8px;
-      font-family: inherit;
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
+    .qa-tile {
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 5px;
-      color: #475569;
+      gap: 12px;
+      width: 100%;
+      padding: 12px 14px;
+      background: #fff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      cursor: pointer;
+      font-family: inherit;
       transition: all 0.15s;
-      mat-icon { font-size: 16px; width: 16px; height: 16px; }
+      text-align: left;
 
-      &:hover { border-color: #1a73e8; color: #1a73e8; background: #e8f0fe; }
-
-      &.patient:hover { border-color: #0f9d8c; color: #0f9d8c; background: #e0f2f1; }
-      &.doctor:hover  { border-color: #1a73e8; color: #1a73e8; background: #e8f0fe; }
+      &:hover {
+        border-color: #1a73e8;
+        background: #f0f7ff;
+        transform: translateX(2px);
+        box-shadow: 0 2px 8px rgba(26,115,232,0.12);
+      }
     }
+
+    .qa-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      mat-icon { font-size: 20px; width: 20px; height: 20px; }
+      &.patient { background: #e0f2f1; mat-icon { color: #0f9d8c; } }
+      &.doctor  { background: #e8f0fe; mat-icon { color: #1a73e8; } }
+    }
+
+    .qa-info {
+      flex: 1;
+      strong { display: block; font-size: 13px; font-weight: 700; color: #1a202c; }
+      span   { font-size: 11px; color: #94a3b8; }
+    }
+
+    .qa-arrow { color: #cbd5e0; font-size: 20px; }
   `]
 })
 export class LoginComponent {
