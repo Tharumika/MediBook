@@ -12,7 +12,7 @@ import { AuthService } from '../../shared/services/auth.service';
   template: `
     <div class="auth-page">
 
-      <!-- Left brand panel — teal/dark theme for doctors -->
+      <!-- Left brand panel - teal/dark theme for doctors -->
       <div class="brand-panel">
         <div class="brand-inner">
           <div class="brand-logo">
@@ -23,7 +23,7 @@ import { AuthService } from '../../shared/services/auth.service';
             <mat-icon>medical_services</mat-icon> Doctor Portal
           </div>
           <h1>Manage your patients, your way</h1>
-          <p>View your schedule, confirm appointments, and keep track of your patients — all in one dashboard.</p>
+          <p>View your schedule, confirm appointments, and keep track of your patients - all in one dashboard.</p>
           <div class="features">
             <div class="feature-item">
               <div class="feat-icon"><mat-icon>calendar_month</mat-icon></div>

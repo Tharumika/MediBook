@@ -20,7 +20,7 @@ import { AuthService } from '../../shared/services/auth.service';
             <span>MediBook</span>
           </div>
           <h1>Healthcare at your fingertips</h1>
-          <p>Book appointments, connect with specialists, and manage your health journey — all in one place.</p>
+          <p>Book appointments, connect with specialists, and manage your health journey - all in one place.</p>
           <div class="features">
             <div class="feature-item">
               <div class="feat-icon"><mat-icon>bolt</mat-icon></div>
