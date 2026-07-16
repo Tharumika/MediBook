@@ -17,7 +17,7 @@ import { Doctor } from '../../shared/models/appointment.models';
       <!-- Sidebar -->
       <aside class="sidebar">
         <div class="sidebar-logo">
-          <div class="logo-icon"><mat-icon>local_hospital</mat-icon></div>
+          <img src="assets/logo.png" alt="MediBook" class="sidebar-logo-img">
           <div class="logo-text">
             <h3>MediBook</h3>
             <p>Patient Portal</p>
@@ -88,7 +88,7 @@ import { Doctor } from '../../shared/models/appointment.models';
                     <p class="quals">{{ doc.qualifications }}</p>
                     <div class="doc-meta">
                       <span><mat-icon>work</mat-icon> {{ doc.experienceYears }} yrs exp</span>
-                      <span class="fee"><mat-icon>payments</mat-icon> ${{ doc.consultationFee }}</span>
+                      <span class="fee"><mat-icon>payments</mat-icon> {{ '$' + doc.consultationFee }}</span>
                     </div>
                   </div>
                   <div class="select-indicator" *ngIf="form.get('doctorId')?.value === doc.id">
@@ -150,7 +150,7 @@ import { Doctor } from '../../shared/models/appointment.models';
                   </div>
                   <div class="summary-row">
                     <span>Consultation Fee</span>
-                    <strong class="fee-highlight">${{ selectedDoctor.consultationFee }}</strong>
+                    <strong class="fee-highlight">{{ '$' + selectedDoctor?.consultationFee }}</strong>
                   </div>
                 </div>
 

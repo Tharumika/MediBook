@@ -15,7 +15,7 @@ import { AuthService } from '../../shared/services/auth.service';
       <div class="brand-panel">
         <div class="brand-inner">
           <div class="brand-logo">
-            <mat-icon>local_hospital</mat-icon>
+            <img src="assets/logo.png" alt="MediBook" class="logo-img">
             <span>MediBook</span>
           </div>
           <h1>Your health, simplified</h1>
@@ -115,8 +115,8 @@ import { AuthService } from '../../shared/services/auth.service';
     .brand-inner { position: relative; z-index: 1; max-width: 420px; }
 
     .brand-logo {
-      display: flex; align-items: center; gap: 10px; margin-bottom: 40px;
-      mat-icon { color: #5eead4; font-size: 32px; width: 32px; height: 32px; }
+      display: flex; align-items: center; gap: 12px; margin-bottom: 40px;
+      .logo-img { width: 44px; height: 44px; border-radius: 12px; object-fit: cover; }
       span { font-size: 24px; font-weight: 800; color: #fff; }
     }
 

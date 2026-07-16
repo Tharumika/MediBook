@@ -16,7 +16,7 @@ import { AuthService } from '../../shared/services/auth.service';
       <div class="brand-panel">
         <div class="brand-inner">
           <div class="brand-logo">
-            <mat-icon>local_hospital</mat-icon>
+            <img src="assets/logo.png" alt="MediBook" class="logo-img">
             <span>MediBook</span>
           </div>
           <h1>Healthcare at your fingertips</h1>
@@ -94,26 +94,13 @@ import { AuthService } from '../../shared/services/auth.service';
 
           <p class="switch-link">Don't have an account? <a routerLink="/register">Create one free</a></p>
 
-          <div class="quick-access">
-            <p class="qa-label">Quick access</p>
-            <div class="qa-tiles">
-              <button class="qa-tile" (click)="demo('patient')">
-                <div class="qa-icon patient"><mat-icon>person</mat-icon></div>
-                <div class="qa-info">
-                  <strong>Patient</strong>
-                  <span>Sign in as patient</span>
-                </div>
-                <mat-icon class="qa-arrow">chevron_right</mat-icon>
-              </button>
-              <button class="qa-tile" (click)="demo('doctor')">
-                <div class="qa-icon doctor"><mat-icon>medical_services</mat-icon></div>
-                <div class="qa-info">
-                  <strong>Doctor</strong>
-                  <span>Sign in as doctor</span>
-                </div>
-                <mat-icon class="qa-arrow">chevron_right</mat-icon>
-              </button>
+          <div class="doctor-portal-link" routerLink="/doctor-login">
+            <div class="dpl-icon"><mat-icon>medical_services</mat-icon></div>
+            <div class="dpl-text">
+              <strong>Are you a doctor?</strong>
+              <span>Sign in to the Doctor Portal</span>
             </div>
+            <mat-icon class="dpl-arrow">chevron_right</mat-icon>
           </div>
         </div>
       </div>
@@ -148,10 +135,10 @@ import { AuthService } from '../../shared/services/auth.service';
     .brand-logo {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       margin-bottom: 40px;
 
-      mat-icon { color: #60a5fa; font-size: 32px; width: 32px; height: 32px; }
+      .logo-img { width: 44px; height: 44px; border-radius: 12px; object-fit: cover; }
       span { font-size: 24px; font-weight: 800; color: #fff; letter-spacing: -0.5px; }
     }
 
@@ -232,56 +219,39 @@ import { AuthService } from '../../shared/services/auth.service';
       a { font-weight: 600; }
     }
 
-    .quick-access { margin-top: 8px; }
-
-    .qa-label {
-      font-size: 11px;
-      font-weight: 700;
-      color: #94a3b8;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      margin: 0 0 10px;
-    }
-
-    .qa-tiles { display: flex; flex-direction: column; gap: 8px; }
-
-    .qa-tile {
+    .doctor-portal-link {
       display: flex;
       align-items: center;
       gap: 12px;
-      width: 100%;
-      padding: 12px 14px;
-      background: #fff;
-      border: 1.5px solid #e2e8f0;
+      padding: 14px 16px;
+      background: #f0fdf9;
+      border: 1.5px solid #99f6e4;
       border-radius: 12px;
       cursor: pointer;
-      font-family: inherit;
       transition: all 0.15s;
-      text-align: left;
+      margin-top: 8px;
 
       &:hover {
-        border-color: #1a73e8;
-        background: #f0f7ff;
+        border-color: #0f9d8c;
+        background: #ccfbf1;
         transform: translateX(2px);
-        box-shadow: 0 2px 8px rgba(26,115,232,0.12);
+        box-shadow: 0 2px 8px rgba(15,157,140,0.15);
       }
     }
 
-    .qa-icon {
-      width: 36px; height: 36px; border-radius: 10px;
-      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-      mat-icon { font-size: 20px; width: 20px; height: 20px; }
-      &.patient { background: #e0f2f1; mat-icon { color: #0f9d8c; } }
-      &.doctor  { background: #e8f0fe; mat-icon { color: #1a73e8; } }
+    .dpl-icon {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: #e0f2f1; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      mat-icon { color: #0f9d8c; font-size: 22px; }
     }
 
-    .qa-info {
+    .dpl-text {
       flex: 1;
-      strong { display: block; font-size: 13px; font-weight: 700; color: #1a202c; }
-      span   { font-size: 11px; color: #94a3b8; }
+      strong { display: block; font-size: 13px; font-weight: 700; color: #0f172a; }
+      span   { font-size: 11px; color: #64748b; }
     }
 
-    .qa-arrow { color: #cbd5e0; font-size: 20px; }
+    .dpl-arrow { color: #0f9d8c; font-size: 20px; }
   `]
 })
 export class LoginComponent {

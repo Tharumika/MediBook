@@ -17,7 +17,7 @@ import { Appointment, Doctor } from '../../shared/models/appointment.models';
       <!-- ── Sidebar ── -->
       <aside class="sidebar">
         <div class="sidebar-logo">
-          <div class="logo-icon"><mat-icon>local_hospital</mat-icon></div>
+          <img src="assets/logo.png" alt="MediBook" class="sidebar-logo-img">
           <div class="logo-text">
             <h3>MediBook</h3>
             <p>Patient Portal</p>
