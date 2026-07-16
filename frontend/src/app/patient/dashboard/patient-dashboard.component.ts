@@ -190,7 +190,7 @@ import { Appointment, Doctor } from '../../shared/models/appointment.models';
                   <p class="quals">{{ doc.qualifications }}</p>
                   <div class="doc-badges">
                     <span class="doc-badge"><mat-icon>work_history</mat-icon>{{ doc.experienceYears }} yrs</span>
-                    <span class="doc-badge fee"><mat-icon>payments</mat-icon>${{ doc.consultationFee }}</span>
+                    <span class="doc-badge fee"><mat-icon>payments</mat-icon>\${{ doc.consultationFee }}</span>
                   </div>
                 </div>
 
@@ -245,11 +245,11 @@ import { Appointment, Doctor } from '../../shared/models/appointment.models';
               <div class="fee-card">
                 <div class="fee-row">
                   <span>Consultation fee</span>
-                  <strong>${{ selectedDoctor?.consultationFee }}</strong>
+                  <strong>\${{ selectedDoctor?.consultationFee }}</strong>
                 </div>
                 <div class="fee-row total">
                   <span>Total</span>
-                  <strong>${{ selectedDoctor?.consultationFee }}</strong>
+                  <strong>\${{ selectedDoctor?.consultationFee }}</strong>
                 </div>
               </div>
 
