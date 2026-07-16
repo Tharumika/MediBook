@@ -1,0 +1,10 @@
+# Netlify Configuration for Angular SPA
+[build]
+  publish = "dist/frontend/browser"
+  command = "npm run build"
+
+# Redirect all traffic to index.html to support Angular's client-side routing
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
