@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
-import { AuthResponse, LoginRequest, RegisterRequest } from '../models/auth.models';
+import { AuthResponse, LoginRequest, RegisterRequest, DoctorRegisterRequest } from '../models/auth.models';
 
 const API = 'http://localhost:8080/api/auth';
 
@@ -18,6 +18,12 @@ export class AuthService {
 
   register(req: RegisterRequest) {
     return this.http.post<AuthResponse>(`${API}/register`, req).pipe(
+      tap(res => this.storeSession(res))
+    );
+  }
+
+  registerDoctor(req: DoctorRegisterRequest) {
+    return this.http.post<AuthResponse>(`${API}/register/doctor`, req).pipe(
       tap(res => this.storeSession(res))
     );
   }
