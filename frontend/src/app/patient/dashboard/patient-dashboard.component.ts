@@ -1,13 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatDividerModule } from '@angular/material/divider';
 import { AuthService } from '../../shared/services/auth.service';
 import { AppointmentService } from '../../shared/services/appointment.service';
 import { Appointment } from '../../shared/models/appointment.models';
@@ -15,110 +9,183 @@ import { Appointment } from '../../shared/models/appointment.models';
 @Component({
   selector: 'app-patient-dashboard',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterLink,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatChipsModule,
-    MatProgressSpinnerModule,
-    MatToolbarModule,
-    MatDividerModule
-  ],
+  imports: [CommonModule, RouterLink, MatIconModule],
   template: `
-    <mat-toolbar color="primary">
-      <mat-icon>local_hospital</mat-icon>
-      <span style="margin-left:8px">MediBook</span>
-      <span class="spacer"></span>
-      <span class="username">{{ userName }}</span>
-      <button mat-icon-button (click)="logout()" title="Logout">
-        <mat-icon>logout</mat-icon>
-      </button>
-    </mat-toolbar>
+    <div class="app-shell">
 
-    <div class="page-content">
-      <div class="welcome-section">
-        <h2>Welcome back, {{ userName }}!</h2>
-        <p class="subtitle">Manage your appointments and health records.</p>
-        <button mat-raised-button color="primary" routerLink="/patient/book">
-          <mat-icon>add</mat-icon> Book New Appointment
-        </button>
-      </div>
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <div class="logo-icon"><mat-icon>local_hospital</mat-icon></div>
+          <div class="logo-text">
+            <h3>MediBook</h3>
+            <p>Patient Portal</p>
+          </div>
+        </div>
 
-      <h3 class="section-title">My Appointments</h3>
+        <div class="sidebar-section">
+          <label>Main</label>
+        </div>
+        <a class="nav-item active" routerLink="/patient/dashboard">
+          <mat-icon>dashboard</mat-icon> Dashboard
+        </a>
+        <a class="nav-item" routerLink="/patient/book">
+          <mat-icon>add_circle_outline</mat-icon> Book Appointment
+        </a>
 
-      <div *ngIf="loading" class="spinner-wrap">
-        <mat-spinner diameter="40"></mat-spinner>
-      </div>
-
-      <div *ngIf="!loading && appointments.length === 0" class="empty-state">
-        <mat-icon>event_busy</mat-icon>
-        <p>No appointments yet. Book your first one!</p>
-        <button mat-stroked-button color="primary" routerLink="/patient/book">Book Now</button>
-      </div>
-
-      <div class="appointments-grid" *ngIf="!loading && appointments.length > 0">
-        <mat-card *ngFor="let appt of appointments" class="appt-card">
-          <mat-card-header>
-            <mat-icon mat-card-avatar>medical_services</mat-icon>
-            <mat-card-title>Dr. {{ appt.doctorName }}</mat-card-title>
-            <mat-card-subtitle>{{ appt.specialization }}</mat-card-subtitle>
-          </mat-card-header>
-
-          <mat-card-content>
-            <p><mat-icon class="inline-icon">schedule</mat-icon> {{ appt.appointmentDateTime | date:'MMM d, y, h:mm a' }}</p>
-            <p><mat-icon class="inline-icon">notes</mat-icon> {{ appt.reason }}</p>
-            <mat-chip [class]="'status-' + appt.status.toLowerCase()">{{ appt.status }}</mat-chip>
-          </mat-card-content>
-
-          <mat-card-actions *ngIf="appt.status === 'PENDING' || appt.status === 'CONFIRMED'">
-            <button mat-button color="warn" (click)="cancel(appt.id)" [disabled]="cancelling === appt.id">
-              <mat-icon>cancel</mat-icon> Cancel
+        <div class="sidebar-footer">
+          <div class="user-info">
+            <div class="avatar">{{ initials }}</div>
+            <div class="user-details">
+              <p class="user-name">{{ userName }}</p>
+              <p class="user-role">Patient</p>
+            </div>
+            <button class="logout-btn" (click)="logout()" title="Logout">
+              <mat-icon>logout</mat-icon>
             </button>
-          </mat-card-actions>
-        </mat-card>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main -->
+      <div class="main-content">
+
+        <div class="page-header">
+          <h1>Dashboard</h1>
+          <p>Track and manage your appointments</p>
+        </div>
+
+        <div class="page-body">
+
+          <!-- Stats -->
+          <div class="stats-row">
+            <div class="stat-card">
+              <div class="stat-icon" style="background:#e8f0fe">
+                <mat-icon style="color:#1a73e8">calendar_month</mat-icon>
+              </div>
+              <div class="stat-info">
+                <div class="stat-value">{{ total }}</div>
+                <div class="stat-label">Total Appointments</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="background:#fef3e2">
+                <mat-icon style="color:#f29900">pending</mat-icon>
+              </div>
+              <div class="stat-info">
+                <div class="stat-value">{{ pending }}</div>
+                <div class="stat-label">Pending</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="background:#e6f4ea">
+                <mat-icon style="color:#1e8e3e">check_circle</mat-icon>
+              </div>
+              <div class="stat-info">
+                <div class="stat-value">{{ confirmed }}</div>
+                <div class="stat-label">Confirmed</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="background:#e3f2fd">
+                <mat-icon style="color:#1565c0">task_alt</mat-icon>
+              </div>
+              <div class="stat-info">
+                <div class="stat-value">{{ completed }}</div>
+                <div class="stat-label">Completed</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Appointments section -->
+          <div class="section-head">
+            <div>
+              <h2>My Appointments</h2>
+              <p>{{ appointments.length }} appointment{{ appointments.length !== 1 ? 's' : '' }} total</p>
+            </div>
+            <a class="btn-primary" routerLink="/patient/book" style="width:auto;padding:0 20px;font-size:14px;text-decoration:none">
+              <mat-icon style="font-size:18px;width:18px;height:18px">add</mat-icon> Book New
+            </a>
+          </div>
+
+          <!-- Loading -->
+          <div class="loading-wrap" *ngIf="loading">
+            <div class="loading-spinner"></div>
+            <span>Loading appointments…</span>
+          </div>
+
+          <!-- Empty -->
+          <div class="empty-state" *ngIf="!loading && appointments.length === 0">
+            <div class="empty-icon"><mat-icon>event_busy</mat-icon></div>
+            <h3>No appointments yet</h3>
+            <p>Book your first appointment to get started</p>
+            <a class="btn-primary" routerLink="/patient/book" style="width:auto;padding:0 24px;text-decoration:none;display:inline-flex">
+              Book Now
+            </a>
+          </div>
+
+          <!-- Cards -->
+          <div class="appt-grid" *ngIf="!loading && appointments.length > 0">
+            <div class="appt-card" *ngFor="let appt of appointments">
+              <div class="appt-header">
+                <div class="doctor-info">
+                  <div class="doc-avatar"><mat-icon>medical_services</mat-icon></div>
+                  <div>
+                    <h4>Dr. {{ appt.doctorName }}</h4>
+                    <p>{{ appt.specialization }}</p>
+                  </div>
+                </div>
+                <span class="badge {{ appt.status.toLowerCase() }}">{{ appt.status }}</span>
+              </div>
+
+              <div class="appt-details">
+                <div class="detail-row">
+                  <mat-icon>schedule</mat-icon>
+                  {{ appt.appointmentDateTime | date:'EEE, MMM d · h:mm a' }}
+                </div>
+                <div class="detail-row">
+                  <mat-icon>notes</mat-icon>
+                  {{ appt.reason }}
+                </div>
+                <div class="detail-row" *ngIf="appt.notes">
+                  <mat-icon>comment</mat-icon>
+                  {{ appt.notes }}
+                </div>
+              </div>
+
+              <div class="appt-actions" *ngIf="appt.status === 'PENDING' || appt.status === 'CONFIRMED'">
+                <button class="btn-sm danger" (click)="cancel(appt.id)" [disabled]="cancelling === appt.id">
+                  <mat-icon>cancel</mat-icon>
+                  {{ cancelling === appt.id ? 'Cancelling…' : 'Cancel' }}
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
-  `,
-  styles: [`
-    .spacer { flex: 1; }
-    .username { margin-right: 8px; font-size: 0.9rem; }
-    .page-content { max-width: 960px; margin: 24px auto; padding: 0 16px; }
-    .welcome-section { margin-bottom: 32px; }
-    .welcome-section h2 { margin: 0 0 4px; font-size: 1.6rem; }
-    .subtitle { color: #666; margin-bottom: 16px; }
-    .section-title { font-size: 1.2rem; margin-bottom: 16px; color: #333; }
-    .spinner-wrap { display: flex; justify-content: center; padding: 40px; }
-    .empty-state {
-      text-align: center;
-      padding: 48px;
-      color: #999;
-      mat-icon { font-size: 48px; width: 48px; height: 48px; }
-    }
-    .appointments-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 16px;
-    }
-    .appt-card { padding: 8px; }
-    .inline-icon { font-size: 16px; width: 16px; height: 16px; vertical-align: middle; margin-right: 4px; }
-    .status-pending { background: #fff3e0 !important; color: #e65100 !important; }
-    .status-confirmed { background: #e8f5e9 !important; color: #2e7d32 !important; }
-    .status-cancelled { background: #ffebee !important; color: #c62828 !important; }
-    .status-completed { background: #e3f2fd !important; color: #1565c0 !important; }
-  `]
+  `
 })
 export class PatientDashboardComponent implements OnInit {
   appointments: Appointment[] = [];
   loading = true;
   cancelling: number | null = null;
   userName = '';
+  initials = '';
+
+  get total()     { return this.appointments.length; }
+  get pending()   { return this.appointments.filter(a => a.status === 'PENDING').length; }
+  get confirmed() { return this.appointments.filter(a => a.status === 'CONFIRMED').length; }
+  get completed() { return this.appointments.filter(a => a.status === 'COMPLETED').length; }
 
   constructor(private auth: AuthService, private apptService: AppointmentService) {}
 
   ngOnInit() {
-    this.userName = this.auth.getUser()?.fullName ?? 'Patient';
+    const user = this.auth.getUser();
+    this.userName = user?.fullName ?? 'Patient';
+    this.initials = this.userName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+
     this.apptService.getMyAppointments().subscribe({
       next: (data) => { this.appointments = data; this.loading = false; },
       error: () => { this.loading = false; }

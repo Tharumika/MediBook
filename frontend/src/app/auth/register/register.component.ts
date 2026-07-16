@@ -2,120 +2,202 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    RouterLink,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatProgressSpinnerModule,
-    MatIconModule
-  ],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, MatIconModule],
   template: `
-    <div class="auth-container">
-      <mat-card class="auth-card">
-        <mat-card-header>
-          <mat-card-title>
-            <span class="logo">🏥 MediBook</span>
-          </mat-card-title>
-          <mat-card-subtitle>Create your patient account</mat-card-subtitle>
-        </mat-card-header>
+    <div class="auth-page">
 
-        <mat-card-content>
+      <div class="brand-panel">
+        <div class="brand-inner">
+          <div class="brand-logo">
+            <mat-icon>local_hospital</mat-icon>
+            <span>MediBook</span>
+          </div>
+          <h1>Your health, simplified</h1>
+          <p>Join thousands of patients who trust MediBook to connect with the right doctors at the right time.</p>
+          <div class="perks">
+            <div class="perk"><mat-icon>check_circle</mat-icon> Free to sign up</div>
+            <div class="perk"><mat-icon>check_circle</mat-icon> Access 10+ specializations</div>
+            <div class="perk"><mat-icon>check_circle</mat-icon> Cancel anytime</div>
+            <div class="perk"><mat-icon>check_circle</mat-icon> 24/7 appointment visibility</div>
+          </div>
+        </div>
+        <div class="brand-graphic">
+          <div class="circle c1"></div>
+          <div class="circle c2"></div>
+        </div>
+      </div>
+
+      <div class="form-panel">
+        <div class="form-inner">
+          <div class="form-top">
+            <h2>Create your account</h2>
+            <p>Start booking appointments in minutes</p>
+          </div>
+
           <form [formGroup]="form" (ngSubmit)="submit()">
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Full Name</mat-label>
-              <input matInput formControlName="fullName" placeholder="John Doe">
-              <mat-icon matSuffix>person</mat-icon>
-              <mat-error *ngIf="form.get('fullName')?.hasError('required')">Full name is required</mat-error>
-            </mat-form-field>
+            <div class="field-group">
+              <label>Full name</label>
+              <div class="input-wrap" [class.has-error]="touched('fullName') && form.get('fullName')?.invalid">
+                <mat-icon>person_outline</mat-icon>
+                <input type="text" formControlName="fullName" placeholder="John Doe" autocomplete="name">
+              </div>
+              <span class="field-error" *ngIf="touched('fullName') && form.get('fullName')?.hasError('required')">Full name is required</span>
+            </div>
 
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Email</mat-label>
-              <input matInput type="email" formControlName="email" placeholder="you@example.com">
-              <mat-icon matSuffix>email</mat-icon>
-              <mat-error *ngIf="form.get('email')?.hasError('required')">Email is required</mat-error>
-              <mat-error *ngIf="form.get('email')?.hasError('email')">Invalid email</mat-error>
-            </mat-form-field>
+            <div class="field-group">
+              <label>Email address</label>
+              <div class="input-wrap" [class.has-error]="touched('email') && form.get('email')?.invalid">
+                <mat-icon>email</mat-icon>
+                <input type="email" formControlName="email" placeholder="you@example.com" autocomplete="email">
+              </div>
+              <span class="field-error" *ngIf="touched('email') && form.get('email')?.hasError('required')">Email is required</span>
+              <span class="field-error" *ngIf="touched('email') && form.get('email')?.hasError('email')">Enter a valid email</span>
+            </div>
 
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Password</mat-label>
-              <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
-              <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword">
-                <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
-              </button>
-              <mat-error *ngIf="form.get('password')?.hasError('required')">Password is required</mat-error>
-              <mat-error *ngIf="form.get('password')?.hasError('minlength')">Min 8 characters</mat-error>
-            </mat-form-field>
+            <div class="field-group">
+              <label>Password</label>
+              <div class="input-wrap" [class.has-error]="touched('password') && form.get('password')?.invalid">
+                <mat-icon>lock_outline</mat-icon>
+                <input [type]="showPass ? 'text' : 'password'" formControlName="password" placeholder="Min. 8 characters" autocomplete="new-password">
+                <button type="button" class="toggle-pass" (click)="showPass = !showPass">
+                  <mat-icon>{{ showPass ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </button>
+              </div>
+              <span class="field-error" *ngIf="touched('password') && form.get('password')?.hasError('required')">Password is required</span>
+              <span class="field-error" *ngIf="touched('password') && form.get('password')?.hasError('minlength')">At least 8 characters</span>
+            </div>
 
-            <div *ngIf="errorMsg" class="error-banner">{{ errorMsg }}</div>
+            <div class="password-strength" *ngIf="form.get('password')?.value">
+              <div class="strength-bar">
+                <div class="strength-fill" [style.width]="strengthWidth" [class]="strengthClass"></div>
+              </div>
+              <span class="strength-label" [class]="strengthClass">{{ strengthLabel }}</span>
+            </div>
 
-            <button mat-raised-button color="primary" class="full-width submit-btn" type="submit" [disabled]="loading">
-              <mat-spinner *ngIf="loading" diameter="20"></mat-spinner>
+            <div class="error-banner" *ngIf="errorMsg">
+              <mat-icon>error_outline</mat-icon>{{ errorMsg }}
+            </div>
+
+            <button class="btn-primary" type="submit" [disabled]="loading">
+              <span class="spin" *ngIf="loading"></span>
               <span *ngIf="!loading">Create Account</span>
             </button>
-          </form>
-        </mat-card-content>
 
-        <mat-card-actions>
-          <p class="center">Already have an account? <a routerLink="/login">Sign in</a></p>
-        </mat-card-actions>
-      </mat-card>
+            <p class="terms">By signing up you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a></p>
+          </form>
+
+          <p class="switch-link">Already have an account? <a routerLink="/login">Sign in</a></p>
+        </div>
+      </div>
     </div>
   `,
   styles: [`
-    .auth-container {
-      min-height: 100vh;
+    .auth-page { display: flex; min-height: 100vh; }
+
+    .brand-panel {
+      flex: 1;
+      background: linear-gradient(145deg, #0f172a 0%, #134e4a 50%, #0f9d8c 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
-      padding: 16px;
+      padding: 48px;
+      position: relative;
+      overflow: hidden;
+      @media (max-width: 768px) { display: none; }
     }
-    .auth-card { width: 100%; max-width: 420px; padding: 24px; }
-    .logo { font-size: 1.4rem; font-weight: 700; }
-    .full-width { width: 100%; margin-bottom: 8px; }
-    .submit-btn { height: 48px; margin-top: 8px; }
-    .error-banner {
-      background: #ffebee;
-      color: #c62828;
-      padding: 10px 14px;
-      border-radius: 4px;
-      margin-bottom: 12px;
-      font-size: 0.875rem;
+
+    .brand-inner { position: relative; z-index: 1; max-width: 420px; }
+
+    .brand-logo {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 40px;
+      mat-icon { color: #5eead4; font-size: 32px; width: 32px; height: 32px; }
+      span { font-size: 24px; font-weight: 800; color: #fff; }
     }
-    .center { text-align: center; width: 100%; }
-    mat-card-actions { padding: 0 16px 16px; }
+
+    .brand-inner h1 { font-size: 38px; font-weight: 800; color: #fff; margin: 0 0 16px; line-height: 1.2; letter-spacing: -0.5px; }
+    .brand-inner > p { font-size: 16px; color: #94a3b8; margin: 0 0 36px; line-height: 1.6; }
+
+    .perks { display: flex; flex-direction: column; gap: 14px; }
+    .perk {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 14px; color: #e2e8f0; font-weight: 500;
+      mat-icon { color: #5eead4; font-size: 20px; }
+    }
+
+    .brand-graphic { position: absolute; inset: 0; pointer-events: none; }
+    .circle { position: absolute; border-radius: 50%; }
+    .c1 { width: 500px; height: 500px; bottom: -200px; right: -150px; background: rgba(255,255,255,0.03); }
+    .c2 { width: 250px; height: 250px; top: -60px; right: 60px; background: rgba(15,157,140,0.12); }
+
+    .form-panel {
+      width: 480px;
+      display: flex; align-items: center; justify-content: center;
+      background: #f8fafc; padding: 40px;
+      @media (max-width: 768px) { width: 100%; }
+    }
+
+    .form-inner { width: 100%; max-width: 380px; }
+    .form-top { margin-bottom: 28px; }
+    .form-top h2 { font-size: 28px; font-weight: 800; color: #0f172a; margin: 0 0 6px; letter-spacing: -0.5px; }
+    .form-top p { font-size: 14px; color: #64748b; margin: 0; }
+
+    .password-strength { margin: -8px 0 16px; }
+    .strength-bar { height: 4px; background: #e2e8f0; border-radius: 99px; margin-bottom: 6px; }
+    .strength-fill { height: 100%; border-radius: 99px; transition: width 0.3s, background 0.3s; }
+    .strength-fill.weak { background: #ef4444; }
+    .strength-fill.fair { background: #f59e0b; }
+    .strength-fill.strong { background: #10b981; }
+    .strength-label { font-size: 12px; font-weight: 600; }
+    .strength-label.weak { color: #ef4444; }
+    .strength-label.fair { color: #f59e0b; }
+    .strength-label.strong { color: #10b981; }
+
+    .terms { font-size: 12px; color: #94a3b8; text-align: center; margin: 14px 0 0; a { color: #64748b; } }
+    .switch-link { text-align: center; font-size: 14px; color: #64748b; margin: 20px 0 0; a { font-weight: 600; } }
   `]
 })
 export class RegisterComponent {
   form: FormGroup;
   loading = false;
-  hidePassword = true;
+  showPass = false;
   errorMsg = '';
 
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {
     this.form = this.fb.group({
       fullName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
+      email:    ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]]
     });
   }
 
+  touched(f: string) { return this.form.get(f)?.touched; }
+
+  get strengthWidth() {
+    const v = this.form.get('password')?.value ?? '';
+    if (v.length < 6) return '33%';
+    if (v.length < 10 || !/[A-Z]/.test(v) || !/[0-9]/.test(v)) return '66%';
+    return '100%';
+  }
+
+  get strengthClass() {
+    const v = this.form.get('password')?.value ?? '';
+    if (v.length < 6) return 'weak';
+    if (v.length < 10 || !/[A-Z]/.test(v) || !/[0-9]/.test(v)) return 'fair';
+    return 'strong';
+  }
+
+  get strengthLabel() {
+    return { weak: 'Weak', fair: 'Fair', strong: 'Strong' }[this.strengthClass];
+  }
+
   submit() {
+    this.form.markAllAsTouched();
     if (this.form.invalid) return;
     this.loading = true;
     this.errorMsg = '';
