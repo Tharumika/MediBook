@@ -49,6 +49,6 @@ public class DataSeeder implements CommandLineRunner {
         patientRepository.save(Patient.builder()
                 .user(patUser).gender("Male").bloodGroup("O+").build());
 
-        log.info("Seed data loaded — admin@medibook.com / doctor@medibook.com / patient@medibook.com");
+        log.info("Seed data loaded - admin@medibook.com / doctor@medibook.com / patient@medibook.com");
     }
 }

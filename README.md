@@ -1,4 +1,4 @@
-# MediBook — Patient Appointment Management System
+# MediBook - Patient Appointment Management System
 
 A full-stack healthcare web application built with **Java Spring Boot** and **Angular**, simulating a real-world clinic appointment system. Developed as a portfolio project targeting healthcare software engineering.
 
@@ -15,12 +15,12 @@ A full-stack healthcare web application built with **Java Spring Boot** and **An
 
 ## Features
 
-- **Patient** — register, login, book / cancel / reschedule appointments
-- **Doctor** — view schedule, manage appointment status
-- **Admin** — manage doctors, patients, and appointment records
-- **JWT Auth** — role-based access control (PATIENT, DOCTOR, ADMIN)
-- **Reactive Forms** — Angular forms with full client-side validation
-- **REST API** — clean endpoints following REST conventions
+- **Patient** - register, login, book / cancel / reschedule appointments
+- **Doctor** - view schedule, manage appointment status
+- **Admin** - manage doctors, patients, and appointment records
+- **JWT Auth** - role-based access control (PATIENT, DOCTOR, ADMIN)
+- **Reactive Forms** - Angular forms with full client-side validation
+- **REST API** - clean endpoints following REST conventions
 
 ## Project Structure
 
@@ -83,4 +83,4 @@ ng serve
 
 ## Author
 
-**Vidun Tharumika** — [vidun.me](https://vidun.me) · [LinkedIn](https://www.linkedin.com/in/vidun-tharumika) · [GitHub](https://github.com/Tharumika)
+**Vidun Tharumika** - [vidun.me](https://vidun.me) · [LinkedIn](https://www.linkedin.com/in/vidun-tharumika) · [GitHub](https://github.com/Tharumika)
