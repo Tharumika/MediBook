@@ -6,7 +6,7 @@
 # Redirect API calls to the production backend server (change the 'to' URL once you deploy the backend)
 [[redirects]]
   from = "/api/*"
-  to = "https://your-backend-url-goes-here.koyeb.app/api/:splat"
+  to = "https://medibook-production-7ea7.up.railway.app/api/:splat"
   status = 200
   force = true
 
